@@ -1,0 +1,11 @@
+
+FROM postgres:latest
+
+ENV POSTGRES_USER=userdb
+ENV POSTGRES_PASSWORD=password
+ENV POSTGRES_DB=Unlock/Reset
+ENV POSTGRES_TABLE=userdb
+    
+COPY init.sql /docker-entrypoint-initdb.d/
+EXPOSE 5432
+CMD ["postgres"]

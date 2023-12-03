@@ -1,0 +1,37 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://userdb:password@postgres:5432/Unlock/Reset
+    networks:
+      - mynetwork
+
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    ports:
+      - "5432:5432"  
+    environment:
+      POSTGRES_USER: userdb
+      
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: Unlock/Reset
+      POSTGRES_TABLE: userdb
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+
+volumes:
+  pg_data:
